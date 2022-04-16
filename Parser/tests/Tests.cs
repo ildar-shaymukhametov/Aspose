@@ -176,6 +176,26 @@ public class ParserTests
     }
 
     [Fact]
+    public void Has_no_header_and_no_footnote_and_empty_first_paragraph___Ignores_empty_paragraph()
+    {
+        var firstParagraphText1 = GetRandomText();
+        var paragraphText1 = GetRandomText();
+        var firstParagraphText2 = string.Empty;
+
+        var document = new Document();
+        var builder = new DocumentBuilder(document);
+        AddParagraph(builder, firstParagraphText1);
+        AddParagraph(builder, paragraphText1);
+        AddNewPage(builder);
+        AddParagraph(builder, firstParagraphText2);
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        Assert.Equal(new[] { firstParagraphText1 }, actual);
+    }
+
+    [Fact]
     public void Empty_paragraph___Ignores_it()
     {
         var document = new Document();
