@@ -62,8 +62,7 @@ public class ParserTests
     public void Has_footnote_or_endnote(FootnoteType type)
     {
         var document = new Document();
-        var builder = new DocumentBuilder(document);
-        builder.InsertFootnote(type, "foo");
+        AddFootnote(document, "foo", type);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
@@ -77,6 +76,12 @@ public class ParserTests
         builder.MoveToHeaderFooter(type);
         builder.Write(text);
         document.UpdateFields();
+    }
+
+    private static void AddFootnote(Document document, string text, FootnoteType type)
+    {
+        var builder = new DocumentBuilder(document);
+        builder.InsertFootnote(type, text);
     }
 }
 
