@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Aspose.Words;
+using Aspose.Words.Notes;
 using Xunit;
 
 namespace tests;
@@ -56,12 +57,13 @@ public class ParserTests
         Assert.True(expected.SetEquals(actual));
     }
 
-    [Fact]
-    public void Has_footnote_or_endnote()
+    [Theory]
+    [ClassData(typeof(FootnoteTypeData))]
+    public void Has_footnote_or_endnote(FootnoteType type)
     {
         var document = new Document();
         var builder = new DocumentBuilder(document);
-        builder.InsertFootnote(Aspose.Words.Notes.FootnoteType.Footnote, "foo");
+        builder.InsertFootnote(type, "foo");
 
         var sut = new Parser();
         var actual = sut.Parse(document);
@@ -88,6 +90,17 @@ public class HeaderFooterTypeData : IEnumerable<object[]>
         yield return new object[] { HeaderFooterType.HeaderEven };
         yield return new object[] { HeaderFooterType.HeaderFirst };
         yield return new object[] { HeaderFooterType.HeaderPrimary };
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+}
+
+public class FootnoteTypeData : IEnumerable<object[]>
+{
+    public IEnumerator<object[]> GetEnumerator()
+    {
+        yield return new object[] { FootnoteType.Footnote };
+        yield return new object[] { FootnoteType.Endnote };
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
