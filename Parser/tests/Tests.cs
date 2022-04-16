@@ -35,21 +35,6 @@ public class ParserTests
     }
 
     [Fact]
-    public void Has_multiple_headers___Returns_their_text()
-    {
-        var document = new Document();
-        AddHeaderFooter(document, "foo", HeaderFooterType.HeaderFirst);
-        AddHeaderFooter(document, "bar", HeaderFooterType.HeaderEven);
-        AddHeaderFooter(document, "baz", HeaderFooterType.HeaderPrimary);
-
-        var sut = new Parser();
-        var actual = sut.Parse(document);
-
-        var expected = new[] { "bar", "foo", "baz" }.ToHashSet();
-        Assert.True(expected.SetEquals(actual));
-    }
-
-    [Fact]
     public void Has_headers_in_different_sections___Returns_their_text()
     {
         var document = new Document();
