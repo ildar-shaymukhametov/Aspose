@@ -124,6 +124,36 @@ public class ParserTests
         Assert.Equal(new[] { headerText }, actual);
     }
 
+    [Fact]
+    public void Has_header_and_paragraph___Ignores_paragraph()
+    {
+        var headerText = GetRandomText();
+        var paragraphText = GetRandomText();
+        var document = new Document();
+        AddHeaderFooter(document, headerText, HeaderFooterType.FooterFirst);
+        AddParagraph(document, paragraphText);
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        Assert.Equal(new[] { headerText }, actual);
+    }
+
+    [Fact]
+    public void Has_footnote_and_paragraph___Ignores_paragraph()
+    {
+        var footnoteText = GetRandomText();
+        var paragraphText = GetRandomText();
+        var document = new Document();
+        AddFootnote(document, footnoteText, FootnoteType.Footnote);
+        AddParagraph(document, paragraphText);
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        Assert.Equal(new[] { footnoteText }, actual);
+    }
+
     private static void AddHeaderFooter(Document document, string text, HeaderFooterType type)
     {
         var builder = new DocumentBuilder(document);
