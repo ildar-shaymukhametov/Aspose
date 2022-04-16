@@ -56,6 +56,19 @@ public class ParserTests
         Assert.True(expected.SetEquals(actual));
     }
 
+    [Fact]
+    public void Has_footnote_or_endnote()
+    {
+        var document = new Document();
+        var builder = new DocumentBuilder(document);
+        builder.InsertFootnote(Aspose.Words.Notes.FootnoteType.Footnote, "foo");
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        Assert.Equal(new[] { "foo" }, actual);
+    }
+
     private static void AddHeaderFooter(Document document, string text, HeaderFooterType type)
     {
         var builder = new DocumentBuilder(document);
