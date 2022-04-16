@@ -55,4 +55,26 @@ public class ParserTests
         var expected = new[] { "bar", "foo", "baz" }.ToHashSet();
         Assert.True(expected.SetEquals(actual));
     }
+
+    [Fact]
+    public void Has_headers_in_different_sections___Returns_their_text()
+    {
+        var document = new Document();
+        var builder = new DocumentBuilder(document);
+        builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
+        builder.Write("foo");
+        builder.MoveToDocumentEnd();
+        builder.InsertBreak(BreakType.PageBreak);
+        builder.InsertBreak(BreakType.SectionBreakNewPage);
+        builder.CurrentSection.HeadersFooters.LinkToPrevious(false);
+        builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
+        builder.Write("bar");
+        document.UpdateFields();
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        var expected = new[] { "foo", "bar" }.ToHashSet();
+        Assert.True(expected.SetEquals(actual));
+    }
 }
