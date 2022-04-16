@@ -4,42 +4,24 @@ public class Parser
 {
     public string[] Parse(Document document)
     {
-        var headerFooters = GetHeaderFooters(document);
+        var headerFooters = GetNodesText(document, NodeType.HeaderFooter);
         if (headerFooters.Any())
         {
             return headerFooters;
         }
 
-        var footnotes = GetFootnotes(document);
+        var footnotes = GetNodesText(document, NodeType.Footnote);
         if (footnotes.Any())
         {
             return footnotes;
         }
 
-        return GetParagraphs(document);
+        return GetNodesText(document, NodeType.Paragraph);
     }
 
-    private string[] GetParagraphs(Document document)
+    private string[] GetNodesText(Document document, NodeType type)
     {
-        return document.GetChildNodes(NodeType.Paragraph, true)
-            .Select(x => x.GetText())
-            .Select(ReplaceControlChars)
-            .Where(x => !string.IsNullOrWhiteSpace(x))
-            .ToArray();
-    }
-
-    private string[] GetFootnotes(Document document)
-    {
-        return document.GetChildNodes(NodeType.Footnote, true)
-            .Select(x => x.GetText())
-            .Select(ReplaceControlChars)
-            .Where(x => !string.IsNullOrWhiteSpace(x))
-            .ToArray();
-    }
-
-    private string[] GetHeaderFooters(Document document)
-    {
-        return document.GetChildNodes(NodeType.HeaderFooter, true)
+        return document.GetChildNodes(type, true)
             .Select(x => x.GetText())
             .Select(ReplaceControlChars)
             .Where(x => !string.IsNullOrWhiteSpace(x))
