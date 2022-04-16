@@ -9,7 +9,6 @@ public class Parser
             .Sections
             .SelectMany(x => ((Section)x).HeadersFooters)
             .Select(x => x.GetText())
-            .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToList();
 
         var footnotes = document
@@ -21,13 +20,17 @@ public class Parser
 
         result.AddRange(footnotes);
 
-        return result.Select(ReplaceControlChars).ToArray();
+        return result
+            .Select(ReplaceControlChars)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .ToArray();
     }
     
     private string ReplaceControlChars(string value)
     {
         return value
-            .Replace(ControlChar.SpaceChar.ToString(), string.Empty)
-            .Replace(ControlChar.Cr, string.Empty);
+            .Replace("\x02", string.Empty)
+            .Replace(" ", string.Empty)
+            .Replace("\r", string.Empty);
     }
 }

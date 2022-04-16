@@ -70,6 +70,19 @@ public class ParserTests
         Assert.Equal(new[] { "foo" }, actual);
     }
 
+    [Theory]
+    [ClassData(typeof(FootnoteTypeData))]
+    public void Has_empty_footnote_or_endnote___Ignores_it(FootnoteType type)
+    {
+        var document = new Document();
+        AddFootnote(document, string.Empty, type);
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        Assert.Empty(actual);
+    }
+
     private static void AddHeaderFooter(Document document, string text, HeaderFooterType type)
     {
         var builder = new DocumentBuilder(document);
