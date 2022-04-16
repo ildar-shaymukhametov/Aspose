@@ -50,7 +50,7 @@ public class ParserTests
         document.UpdateFields();
 
         var sut = new Parser();
-        var actual = sut.Parse(document).ToHashSet();
+        var actual = sut.Parse(document);
 
         var expected = new[] { "bar", "foo", "baz" }.ToHashSet();
         Assert.True(expected.SetEquals(actual));
@@ -66,7 +66,6 @@ public class ParserTests
         builder.MoveToDocumentEnd();
         builder.InsertBreak(BreakType.PageBreak);
         builder.InsertBreak(BreakType.SectionBreakNewPage);
-        builder.CurrentSection.HeadersFooters.LinkToPrevious(false);
         builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
         builder.Write("bar");
         document.UpdateFields();
