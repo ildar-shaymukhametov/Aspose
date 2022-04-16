@@ -6,14 +6,12 @@ public class Parser
     public string[] Parse(Document document)
     {
         var result = document
-            .Sections
-            .SelectMany(x => ((Section)x).HeadersFooters)
+            .GetChildNodes(NodeType.HeaderFooter, true)
             .Select(x => x.GetText())
             .ToList();
 
         var footnotes = document
             .GetChildNodes(NodeType.Footnote, true)
-            .Cast<Footnote>()
             .Select(x => x.GetText())
             .ToList();
 
