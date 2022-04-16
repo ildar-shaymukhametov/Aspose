@@ -154,7 +154,7 @@ public class ParserTests
     }
 
     [Fact]
-    public void Has_no_header_or_footnote___Returns_first_paragraph_of_every_section()
+    public void Has_no_header_and_no_footnote___Returns_first_paragraph_of_every_section()
     {
         var paragraphText = GetRandomText();
         var anotherParagraphText = GetRandomText();
