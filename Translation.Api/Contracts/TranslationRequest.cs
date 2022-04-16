@@ -1,6 +1,11 @@
-﻿public class TranslationRequest
+﻿using System.ComponentModel.DataAnnotations;
+
+public class TranslationRequest
 {
+    [Required]
     public string[]? Texts { get; set; }
-    public string? SourceLanguageCode { get; set; }
+
+    [Required]
     public string? TargetLanguageCode { get; set; }
+    public string? SourceLanguageCode { get; set; }
 }

@@ -18,6 +18,11 @@ public class TranslationController : ControllerBase
     [HttpPost("translate")]
     public async Task<IActionResult> Translate(TranslationRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         var message = new HttpRequestMessage
         {
             Method = HttpMethod.Post,
