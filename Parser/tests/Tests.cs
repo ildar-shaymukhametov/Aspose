@@ -23,7 +23,7 @@ public class ParserTests
 
     [Theory]
     [ClassData(typeof(HeaderFooterTypeData))]
-    public void Has_empty_header___Ignores_it(HeaderFooterType type)
+    public void Has_empty_header_or_footer__Ignores_it(HeaderFooterType type)
     {
         var document = new Document();
         AddHeaderFooter(document, string.Empty, type);
