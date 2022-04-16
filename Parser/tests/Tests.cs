@@ -10,25 +10,19 @@ public class ParserTests
     public void Has_header___Returns_its_text()
     {
         var document = new Document();
-        var builder = new DocumentBuilder(document);
-        builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
-        builder.Write("foo");
-        document.UpdateFields();
+        AddHeaderFooter(document, "foo", HeaderFooterType.HeaderFirst);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
 
-        Assert.Equal(new [] { "foo" }, actual);
+        Assert.Equal(new[] { "foo" }, actual);
     }
 
     [Fact]
     public void Has_empty_header___Ignores_it()
     {
         var document = new Document();
-        var builder = new DocumentBuilder(document);
-        builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
-        builder.Write(string.Empty);
-        document.UpdateFields();
+        AddHeaderFooter(document, string.Empty, HeaderFooterType.HeaderFirst);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
@@ -40,14 +34,9 @@ public class ParserTests
     public void Has_multiple_headers___Returns_their_text()
     {
         var document = new Document();
-        var builder = new DocumentBuilder(document);
-        builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
-        builder.Write("foo");
-        builder.MoveToHeaderFooter(HeaderFooterType.HeaderPrimary);
-        builder.Write("bar");
-        builder.MoveToHeaderFooter(HeaderFooterType.HeaderEven);
-        builder.Write("baz");
-        document.UpdateFields();
+        AddHeaderFooter(document, "foo", HeaderFooterType.HeaderFirst);
+        AddHeaderFooter(document, "bar", HeaderFooterType.HeaderEven);
+        AddHeaderFooter(document, "baz", HeaderFooterType.HeaderPrimary);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
@@ -75,5 +64,13 @@ public class ParserTests
 
         var expected = new[] { "foo", "bar" }.ToHashSet();
         Assert.True(expected.SetEquals(actual));
+    }
+
+    private static void AddHeaderFooter(Document document, string text, HeaderFooterType type)
+    {
+        var builder = new DocumentBuilder(document);
+        builder.MoveToHeaderFooter(type);
+        builder.Write(text);
+        document.UpdateFields();
     }
 }
