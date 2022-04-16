@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Aspose.Words;
@@ -150,6 +151,25 @@ public class ParserTests
         var actual = sut.Parse(document);
 
         Assert.Equal(new[] { footnoteText }, actual);
+    }
+
+    [Fact]
+    public void Has_no_header_or_footnote___Returns_first_paragraph_of_every_section()
+    {
+        var paragraphText = GetRandomText();
+        var anotherParagraphText = GetRandomText();
+
+        var document = new Document();
+        var builder = new DocumentBuilder(document);
+        AddParagraph(document, paragraphText);
+        AddNewPage(builder);
+        AddParagraph(document, anotherParagraphText);
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        var expected = new[] { paragraphText, anotherParagraphText }.ToHashSet();
+        Assert.True(expected.SetEquals(actual));
     }
 
     private static void AddHeaderFooter(DocumentBuilder builder, string text, HeaderFooterType type)

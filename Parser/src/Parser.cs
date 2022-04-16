@@ -11,8 +11,21 @@ public class Parser
         }
 
         var footnotes = GetFootnotes(document);
+        if (footnotes.Any())
+        {
+            return footnotes;
+        }
 
-        return footnotes;
+        return GetParagraphs(document);
+    }
+
+    private string[] GetParagraphs(Document document)
+    {
+        return document.GetChildNodes(NodeType.Paragraph, true)
+            .Select(x => x.GetText())
+            .Select(ReplaceControlChars)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .ToArray();
     }
 
     private string[] GetFootnotes(Document document)
