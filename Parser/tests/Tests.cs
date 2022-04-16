@@ -171,6 +171,19 @@ public class ParserTests
         Assert.True(expected.SetEquals(actual));
     }
 
+    [Fact]
+    public void Empty_paragraph___Ignores_it()
+    {
+        var document = new Document();
+        var builder = new DocumentBuilder(document);
+        AddParagraph(document, string.Empty);
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        Assert.Empty(actual);
+    }
+
     private static void AddHeaderFooter(DocumentBuilder builder, string text, HeaderFooterType type)
     {
         builder.MoveToHeaderFooter(type);
