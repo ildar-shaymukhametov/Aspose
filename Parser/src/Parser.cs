@@ -7,6 +7,7 @@ public class Parser
         var result = document
             .Sections[0]
             .Select(x => x.GetText().ReplaceLineEndings(string.Empty))
+            .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToArray();
 
         return result;
