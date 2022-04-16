@@ -16,7 +16,7 @@ public class Parser
             return footnotes;
         }
 
-        return GetNodesText(document, NodeType.Paragraph);
+        return GetSectionsFirstParagraphText(document);
     }
 
     private string[] GetNodesText(Document document, NodeType type)
@@ -26,6 +26,20 @@ public class Parser
             .Select(ReplaceControlChars)
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToArray();
+    }
+
+    private string[] GetSectionsFirstParagraphText(Document document)
+    {
+        var result = document.GetChildNodes(NodeType.Paragraph, true)
+            .Cast<Paragraph>()
+            .GroupBy(x => x.ParentSection)
+            .Select(x => x.First())
+            .Select(x => x.GetText())
+            .Select(ReplaceControlChars)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .ToArray();
+            
+        return result;
     }
 
     private string ReplaceControlChars(string value)

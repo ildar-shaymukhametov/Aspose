@@ -155,19 +155,23 @@ public class ParserTests
     [Fact]
     public void Has_no_header_and_no_footnote___Returns_first_paragraph_of_every_section()
     {
-        var paragraphText = GetRandomText();
-        var anotherParagraphText = GetRandomText();
+        var firstParagraphText1 = GetRandomText();
+        var paragraphText1 = GetRandomText();
+        var firstParagraphText2 = GetRandomText();
+        var paragraphText2 = GetRandomText();
 
         var document = new Document();
         var builder = new DocumentBuilder(document);
-        AddParagraph(document, paragraphText);
+        AddParagraph(builder, firstParagraphText1);
+        AddParagraph(builder, paragraphText1);
         AddNewPage(builder);
-        AddParagraph(document, anotherParagraphText);
+        AddParagraph(builder, firstParagraphText2);
+        AddParagraph(builder, paragraphText2);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
 
-        var expected = new[] { paragraphText, anotherParagraphText }.ToHashSet();
+        var expected = new[] { firstParagraphText1, firstParagraphText2 }.ToHashSet();
         Assert.True(expected.SetEquals(actual));
     }
 
@@ -219,10 +223,15 @@ public class ParserTests
         AddFootnote(builder, text, type);
     }
 
+    private static void AddParagraph(DocumentBuilder builder, string text)
+    {
+        builder.Writeln(text);
+    }
+
     private static void AddParagraph(Document document, string text)
     {
         var builder = new DocumentBuilder(document);
-        builder.Writeln(text);
+        AddParagraph(builder, text);
     }
 
     private static void AddNewPage(DocumentBuilder builder)
