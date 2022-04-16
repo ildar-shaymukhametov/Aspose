@@ -36,7 +36,7 @@ public class ParserTests
 
     [Theory]
     [ClassData(typeof(HeaderFooterTypeData))]
-    public void Has_headers_in_different_sections___Returns_their_text(HeaderFooterType type)
+    public void Has_headers_or_footers_in_different_sections___Returns_their_text(HeaderFooterType type)
     {
         var document = new Document();
         var builder = new DocumentBuilder(document);
