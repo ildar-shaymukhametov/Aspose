@@ -1,35 +1,34 @@
 using Aspose.Words;
-using Aspose.Words.Notes;
 
 public class Parser
 {
     public string[] Parse(Document document)
     {
-        var result = new List<string>();
-        var headerFooters = document
-            .GetChildNodes(NodeType.HeaderFooter, true)
+        var headerFooters = GetHeaderFooters(document);
+        if (headerFooters.Any())
+        {
+            return headerFooters;
+        }
+
+        var footnotes = document
+            .GetChildNodes(NodeType.Footnote, true)
             .Select(x => x.GetText())
             .Select(ReplaceControlChars)
             .Where(x => !string.IsNullOrWhiteSpace(x))
-            .ToList();
+            .ToArray();
 
-        result.AddRange(headerFooters);
-            
-        if (!headerFooters.Any())
-        {
-            var footnotes = document
-                .GetChildNodes(NodeType.Footnote, true)
-                .Select(x => x.GetText())
-                .Select(ReplaceControlChars)
-                .Where(x => !string.IsNullOrWhiteSpace(x))
-                .ToList();
-
-            result.AddRange(footnotes);
-        }
-
-        return result.ToArray();
+        return footnotes;
     }
-    
+
+    private string[] GetHeaderFooters(Document document)
+    {
+        return document.GetChildNodes(NodeType.HeaderFooter, true)
+            .Select(x => x.GetText())
+            .Select(ReplaceControlChars)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .ToArray();
+    }
+
     private string ReplaceControlChars(string value)
     {
         return value
