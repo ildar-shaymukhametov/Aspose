@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Aspose.Words;
 using Xunit;
@@ -7,12 +9,7 @@ namespace tests;
 public class ParserTests
 {
     [Theory]
-    [InlineData(HeaderFooterType.HeaderFirst)]
-    [InlineData(HeaderFooterType.HeaderEven)]
-    [InlineData(HeaderFooterType.HeaderPrimary)]
-    [InlineData(HeaderFooterType.FooterEven)]
-    [InlineData(HeaderFooterType.FooterFirst)]
-    [InlineData(HeaderFooterType.FooterPrimary)]
+    [ClassData(typeof(HeaderFooterTypeData))]
     public void Has_header_or_footer___Returns_its_text(HeaderFooterType type)
     {
         var document = new Document();
@@ -24,11 +21,12 @@ public class ParserTests
         Assert.Equal(new[] { "foo" }, actual);
     }
 
-    [Fact]
-    public void Has_empty_header___Ignores_it()
+    [Theory]
+    [ClassData(typeof(HeaderFooterTypeData))]
+    public void Has_empty_header___Ignores_it(HeaderFooterType type)
     {
         var document = new Document();
-        AddHeaderFooter(document, string.Empty, HeaderFooterType.HeaderFirst);
+        AddHeaderFooter(document, string.Empty, type);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
@@ -79,4 +77,19 @@ public class ParserTests
         builder.Write(text);
         document.UpdateFields();
     }
+}
+
+public class HeaderFooterTypeData : IEnumerable<object[]>
+{
+    public IEnumerator<object[]> GetEnumerator()
+    {
+        yield return new object[] { HeaderFooterType.FooterEven };
+        yield return new object[] { HeaderFooterType.FooterFirst };
+        yield return new object[] { HeaderFooterType.FooterPrimary };
+        yield return new object[] { HeaderFooterType.HeaderEven };
+        yield return new object[] { HeaderFooterType.HeaderFirst };
+        yield return new object[] { HeaderFooterType.HeaderPrimary };
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
