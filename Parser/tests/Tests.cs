@@ -6,11 +6,17 @@ namespace tests;
 
 public class ParserTests
 {
-    [Fact]
-    public void Has_header___Returns_its_text()
+    [Theory]
+    [InlineData(HeaderFooterType.HeaderFirst)]
+    [InlineData(HeaderFooterType.HeaderEven)]
+    [InlineData(HeaderFooterType.HeaderPrimary)]
+    [InlineData(HeaderFooterType.FooterEven)]
+    [InlineData(HeaderFooterType.FooterFirst)]
+    [InlineData(HeaderFooterType.FooterPrimary)]
+    public void Has_header_or_footer___Returns_its_text(HeaderFooterType type)
     {
         var document = new Document();
-        AddHeaderFooter(document, "foo", HeaderFooterType.HeaderFirst);
+        AddHeaderFooter(document, "foo", type);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
