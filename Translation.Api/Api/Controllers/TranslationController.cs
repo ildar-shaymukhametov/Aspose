@@ -14,8 +14,8 @@ public class TranslationController : ControllerBase
     }
 
     [HttpPost("translate")]
-    public IActionResult Translate(string text)
+    public IActionResult Translate(TranslationRequest request)
     {
-        return Ok();
+        return Ok(request);
     }
 }
