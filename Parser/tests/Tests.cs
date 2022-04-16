@@ -113,10 +113,10 @@ public class ParserTests
     public void Has_header_and_footnote___Ignores_footnote()
     {
         var headerText = GetRandomText();
-        var anotherHeaderText = GetRandomText();
+        var footnoteText = GetRandomText();
         var document = new Document();
         AddHeaderFooter(document, headerText, HeaderFooterType.FooterFirst);
-        AddFootnote(document, anotherHeaderText, FootnoteType.Footnote);
+        AddFootnote(document, footnoteText, FootnoteType.Footnote);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
