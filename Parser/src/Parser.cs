@@ -1,6 +1,11 @@
 using Aspose.Words;
 
-public class Parser
+public interface IParser
+{
+    string[] Parse(Document document);
+}
+
+public class Parser : IParser
 {
     public string[] Parse(Document document)
     {
@@ -43,7 +48,7 @@ public class Parser
             .Select(ReplaceControlChars)
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToArray();
-            
+
         return result;
     }
 
