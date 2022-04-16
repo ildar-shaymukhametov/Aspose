@@ -59,7 +59,7 @@ public class ParserTests
 
     [Theory]
     [ClassData(typeof(FootnoteTypeData))]
-    public void Has_footnote_or_endnote(FootnoteType type)
+    public void Has_footnote_or_endnote___Returns_its_text(FootnoteType type)
     {
         var document = new Document();
         AddFootnote(document, "foo", type);
