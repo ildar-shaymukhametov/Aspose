@@ -4,6 +4,11 @@ public class Parser
 {
     public string[] Parse(Document document)
     {
+        if (document == null)
+        {
+            throw new ArgumentNullException(nameof(document));
+        }
+
         var headerFooters = GetNodesText(document, NodeType.HeaderFooter);
         if (headerFooters.Any())
         {

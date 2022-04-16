@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -217,6 +218,14 @@ public class ParserTests
         var actual = sut.Parse(document);
 
         Assert.Empty(actual);
+    }
+
+    [Fact]
+    public void No_document___Throws()
+    {
+        Document document = null;
+        var sut = new Parser();
+        Assert.Throws<ArgumentNullException>(() => sut.Parse(document));
     }
 
     private static void AddHeaderFooter(DocumentBuilder builder, string text, HeaderFooterType type)
