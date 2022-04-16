@@ -34,17 +34,18 @@ public class ParserTests
         Assert.Empty(actual);
     }
 
-    [Fact]
-    public void Has_headers_in_different_sections___Returns_their_text()
+    [Theory]
+    [ClassData(typeof(HeaderFooterTypeData))]
+    public void Has_headers_in_different_sections___Returns_their_text(HeaderFooterType type)
     {
         var document = new Document();
         var builder = new DocumentBuilder(document);
-        builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
+        builder.MoveToHeaderFooter(type);
         builder.Write("foo");
         builder.MoveToDocumentEnd();
         builder.InsertBreak(BreakType.PageBreak);
         builder.InsertBreak(BreakType.SectionBreakNewPage);
-        builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
+        builder.MoveToHeaderFooter(type);
         builder.Write("bar");
         document.UpdateFields();
 
