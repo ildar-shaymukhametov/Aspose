@@ -12,7 +12,6 @@ public class Parser
             .ToList();
 
         var footnotes = document
-            .Sections[0]
             .GetChildNodes(NodeType.Footnote, true)
             .Cast<Footnote>()
             .Select(x => x.GetText())

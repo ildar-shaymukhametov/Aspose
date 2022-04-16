@@ -83,6 +83,25 @@ public class ParserTests
         Assert.Empty(actual);
     }
 
+    [Theory]
+    [ClassData(typeof(FootnoteTypeData))]
+    public void Has_footnotes_or_endnotes_in_different_sections___Returns_their_text(FootnoteType type)
+    {
+        var document = new Document();
+        var builder = new DocumentBuilder(document);
+        builder.InsertFootnote(type, "foo");
+        builder.MoveToDocumentEnd();
+        builder.InsertBreak(BreakType.PageBreak);
+        builder.InsertBreak(BreakType.SectionBreakNewPage);
+        builder.InsertFootnote(type, "bar");
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        var expected = new[] { "foo", "bar" }.ToHashSet();
+        Assert.True(expected.SetEquals(actual));
+    }
+
     private static void AddHeaderFooter(Document document, string text, HeaderFooterType type)
     {
         var builder = new DocumentBuilder(document);
