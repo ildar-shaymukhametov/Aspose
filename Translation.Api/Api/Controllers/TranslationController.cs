@@ -39,8 +39,10 @@ public class TranslationController : ControllerBase
         {
             var httpClient = _httpClientFactory.CreateClient("TranslationApi");
             var response = await httpClient.SendAsync(message);
+            response.EnsureSuccessStatusCode();
+
             var result = await response.Content.ReadFromJsonAsync<TranslationResult>();
-            var translations = result.Translations.Select(x => x.Text).ToArray();
+            var translations = result?.Translations?.Select(x => x.Text).ToArray();
 
             return Ok(translations);
         }
