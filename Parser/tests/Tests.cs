@@ -110,7 +110,7 @@ public class ParserTests
     }
 
     [Fact]
-    public void Has_header_and_footnote___Returns_header_text()
+    public void Has_header_and_footnote___Ignores_footnote()
     {
         var headerText = GetRandomText();
         var anotherHeaderText = GetRandomText();
