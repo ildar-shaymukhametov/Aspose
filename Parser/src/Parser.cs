@@ -10,14 +10,18 @@ public class Parser
             return headerFooters;
         }
 
-        var footnotes = document
-            .GetChildNodes(NodeType.Footnote, true)
+        var footnotes = GetFootnotes(document);
+
+        return footnotes;
+    }
+
+    private string[] GetFootnotes(Document document)
+    {
+        return document.GetChildNodes(NodeType.Footnote, true)
             .Select(x => x.GetText())
             .Select(ReplaceControlChars)
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToArray();
-
-        return footnotes;
     }
 
     private string[] GetHeaderFooters(Document document)
