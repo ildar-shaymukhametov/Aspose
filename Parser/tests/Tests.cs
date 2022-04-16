@@ -102,6 +102,19 @@ public class ParserTests
         Assert.True(expected.SetEquals(actual));
     }
 
+    [Fact]
+    public void Has_header_and_footnote___Returns_header_text()
+    {
+        var document = new Document();
+        AddHeaderFooter(document, "foo", HeaderFooterType.FooterFirst);
+        AddFootnote(document, "bar", FootnoteType.Footnote);
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        Assert.Equal(new[] { "foo" }, actual);
+    }
+
     private static void AddHeaderFooter(Document document, string text, HeaderFooterType type)
     {
         var builder = new DocumentBuilder(document);
@@ -114,6 +127,12 @@ public class ParserTests
     {
         var builder = new DocumentBuilder(document);
         builder.InsertFootnote(type, text);
+    }
+
+    private static void AddParagraph(Document document, string text)
+    {
+        var builder = new DocumentBuilder(document);
+        builder.Writeln(text);
     }
 }
 

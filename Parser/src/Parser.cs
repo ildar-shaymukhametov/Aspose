@@ -5,22 +5,29 @@ public class Parser
 {
     public string[] Parse(Document document)
     {
-        var result = document
+        var result = new List<string>();
+        var headerFooters = document
             .GetChildNodes(NodeType.HeaderFooter, true)
             .Select(x => x.GetText())
-            .ToList();
-
-        var footnotes = document
-            .GetChildNodes(NodeType.Footnote, true)
-            .Select(x => x.GetText())
-            .ToList();
-
-        result.AddRange(footnotes);
-
-        return result
             .Select(ReplaceControlChars)
             .Where(x => !string.IsNullOrWhiteSpace(x))
-            .ToArray();
+            .ToList();
+
+        result.AddRange(headerFooters);
+            
+        if (!headerFooters.Any())
+        {
+            var footnotes = document
+                .GetChildNodes(NodeType.Footnote, true)
+                .Select(x => x.GetText())
+                .Select(ReplaceControlChars)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToList();
+
+            result.AddRange(footnotes);
+        }
+
+        return result.ToArray();
     }
     
     private string ReplaceControlChars(string value)
