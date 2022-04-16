@@ -35,4 +35,24 @@ public class ParserTests
 
         Assert.Empty(actual);
     }
+
+    [Fact]
+    public void Has_multiple_headers___Returns_their_text()
+    {
+        var document = new Document();
+        var builder = new DocumentBuilder(document);
+        builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
+        builder.Write("foo");
+        builder.MoveToHeaderFooter(HeaderFooterType.HeaderPrimary);
+        builder.Write("bar");
+        builder.MoveToHeaderFooter(HeaderFooterType.HeaderEven);
+        builder.Write("baz");
+        document.UpdateFields();
+
+        var sut = new Parser();
+        var actual = sut.Parse(document).ToHashSet();
+
+        var expected = new[] { "bar", "foo", "baz" }.ToHashSet();
+        Assert.True(expected.SetEquals(actual));
+    }
 }
