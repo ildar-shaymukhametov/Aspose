@@ -184,6 +184,17 @@ public class ParserTests
         Assert.Empty(actual);
     }
 
+    [Fact]
+    public void No_elements___Returns_empty_collection()
+    {
+        var document = new Document();
+
+        var sut = new Parser();
+        var actual = sut.Parse(document);
+
+        Assert.Empty(actual);
+    }
+
     private static void AddHeaderFooter(DocumentBuilder builder, string text, HeaderFooterType type)
     {
         builder.MoveToHeaderFooter(type);
