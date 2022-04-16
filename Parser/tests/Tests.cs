@@ -43,16 +43,12 @@ public class ParserTests
     {
         var headerText = GetRandomText();
         var anotherHeaderText = GetRandomText();
+
         var document = new Document();
         var builder = new DocumentBuilder(document);
-        builder.MoveToHeaderFooter(type);
-        builder.Write(headerText);
-        builder.MoveToDocumentEnd();
-        builder.InsertBreak(BreakType.PageBreak);
-        builder.InsertBreak(BreakType.SectionBreakNewPage);
-        builder.MoveToHeaderFooter(type);
-        builder.Write(anotherHeaderText);
-        document.UpdateFields();
+        AddHeaderFooter(builder, headerText, type);
+        AddNewPage(builder);
+        AddHeaderFooter(builder, anotherHeaderText, type);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
@@ -94,13 +90,12 @@ public class ParserTests
     {
         var headerText = GetRandomText();
         var anotherHeaderText = GetRandomText();
+
         var document = new Document();
         var builder = new DocumentBuilder(document);
-        builder.InsertFootnote(type, headerText);
-        builder.MoveToDocumentEnd();
-        builder.InsertBreak(BreakType.PageBreak);
-        builder.InsertBreak(BreakType.SectionBreakNewPage);
-        builder.InsertFootnote(type, anotherHeaderText);
+        AddFootnote(builder, headerText, type);
+        AddNewPage(builder);
+        AddFootnote(builder, anotherHeaderText, type);
 
         var sut = new Parser();
         var actual = sut.Parse(document);
@@ -114,6 +109,7 @@ public class ParserTests
     {
         var headerText = GetRandomText();
         var footnoteText = GetRandomText();
+
         var document = new Document();
         AddHeaderFooter(document, headerText, HeaderFooterType.FooterFirst);
         AddFootnote(document, footnoteText, FootnoteType.Footnote);
@@ -129,6 +125,7 @@ public class ParserTests
     {
         var headerText = GetRandomText();
         var paragraphText = GetRandomText();
+
         var document = new Document();
         AddHeaderFooter(document, headerText, HeaderFooterType.FooterFirst);
         AddParagraph(document, paragraphText);
@@ -144,6 +141,7 @@ public class ParserTests
     {
         var footnoteText = GetRandomText();
         var paragraphText = GetRandomText();
+
         var document = new Document();
         AddFootnote(document, footnoteText, FootnoteType.Footnote);
         AddParagraph(document, paragraphText);
@@ -154,24 +152,41 @@ public class ParserTests
         Assert.Equal(new[] { footnoteText }, actual);
     }
 
+    private static void AddHeaderFooter(DocumentBuilder builder, string text, HeaderFooterType type)
+    {
+        builder.MoveToHeaderFooter(type);
+        builder.Write(text);
+        builder.Document.UpdateFields();
+    }
+
     private static void AddHeaderFooter(Document document, string text, HeaderFooterType type)
     {
         var builder = new DocumentBuilder(document);
-        builder.MoveToHeaderFooter(type);
-        builder.Write(text);
-        document.UpdateFields();
+        AddHeaderFooter(builder, text, type);
+    }
+
+    private static void AddFootnote(DocumentBuilder builder, string text, FootnoteType type)
+    {
+        builder.InsertFootnote(type, text);
     }
 
     private static void AddFootnote(Document document, string text, FootnoteType type)
     {
         var builder = new DocumentBuilder(document);
-        builder.InsertFootnote(type, text);
+        AddFootnote(builder, text, type);
     }
 
     private static void AddParagraph(Document document, string text)
     {
         var builder = new DocumentBuilder(document);
         builder.Writeln(text);
+    }
+
+    private static void AddNewPage(DocumentBuilder builder)
+    {
+        builder.MoveToDocumentEnd();
+        builder.InsertBreak(BreakType.PageBreak);
+        builder.InsertBreak(BreakType.SectionBreakNewPage);
     }
 
     private string GetRandomText()
