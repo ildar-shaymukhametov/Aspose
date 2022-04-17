@@ -41,10 +41,8 @@ public class TranslationController : ControllerBase
             var response = await httpClient.SendAsync(message);
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<TranslationResult>();
-            var translations = result?.Translations?.Select(x => x.Text).ToArray();
-
-            return Ok(translations);
+            var result = await response.Content.ReadAsStringAsync();
+            return Ok(result);
         }
         catch (Exception ex)
         {
