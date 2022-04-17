@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-public class TranslationApiOptions
+public class RefreshTokenApiOptions
 {
     [Url]
     [Required]
     public string? Url { get; set; }
 
     [Required]
-    public string? FolderId { get; set; }
+    public string? AccessToken { get; set; }
 }

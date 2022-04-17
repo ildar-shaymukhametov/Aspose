@@ -12,13 +12,26 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOptions<TranslationApiOptions>()
     .Bind(builder.Configuration.GetSection("TranslationApi"))
     .ValidateDataAnnotations();
-    
+
+builder.Services.AddOptions<RefreshTokenApiOptions>()
+    .Bind(builder.Configuration.GetSection("RefreshTokenApi"))
+    .ValidateDataAnnotations();
+
 builder.Services.AddHttpClient("TranslationApi", (serviceProvider, httpClient) =>
 {
     var options = serviceProvider.GetRequiredService<IOptions<TranslationApiOptions>>().Value;
     httpClient.BaseAddress = new Uri(options.Url);
-    httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.Token}");
+    httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {RefreshTokenAccessor.Token}");
 });
+
+builder.Services.AddHttpClient("RefreshTokenApi", (serviceProvider, httpClient) =>
+{
+    var options = serviceProvider.GetRequiredService<IOptions<RefreshTokenApiOptions>>().Value;
+    httpClient.BaseAddress = new Uri(options.Url);
+});
+
+builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddHostedService<RefreshTokenHostedService>();
 
 var app = builder.Build();
 
