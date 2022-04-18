@@ -26,7 +26,12 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Translate(TransaleFileViewModel viewModel)
     {
-        return View();
+        if (!ModelState.IsValid)
+        {
+            return View(nameof(Index));
+        }
+
+        return View(nameof(Index));
     } 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
