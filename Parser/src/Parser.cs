@@ -3,10 +3,16 @@ using Aspose.Words;
 public interface IParser
 {
     string[] Parse(Document document);
+    string[] Parse(Stream stream);
 }
 
 public class Parser : IParser
 {
+    public string[] Parse(Stream stream)
+    {
+        return Parse(new Document(stream));
+    }
+
     public string[] Parse(Document document)
     {
         if (document == null)
