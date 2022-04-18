@@ -3,20 +3,15 @@ using System.ComponentModel.DataAnnotations;
 public class TransaleFileViewModel : IValidatableObject
 {
     const int MaxFileSizeBytes = 10485760;
-    readonly string _allowedExtensions = "docx, doc";
+    readonly string _allowedExtensions = "docx,doc";
 
-    [Required]
-    public IFormFile? File { get; set; }
+    public IFormFile File { get; set; }
 
-    [Required]
-    [StringLength(2)]
     [RegularExpression("ru")]
-    public string? SourceLanguage { get; set; }
+    public string SourceLanguage { get; set; }
 
-    [Required]
-    [StringLength(2)]
     [RegularExpression("en|de")]
-    public string? TargetLanguage { get; set; }
+    public string TargetLanguage { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
