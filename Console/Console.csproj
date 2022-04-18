@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Translation.Api\Client\Client.csproj" />
+    <ProjectReference Include="..\Parser\src\Parser.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

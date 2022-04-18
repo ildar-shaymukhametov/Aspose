@@ -7,18 +7,23 @@
     }
 
     var filename = args[0];
+    using var file = File.Open(filename, FileMode.Open);
+    var parser = new Parser();
+    var texts = parser.Parse(file);
+    if (!texts.Any())
+    {
+        Console.WriteLine("File contains no text");
+        return;
+    }
 
-    using var httpClient = new HttpClient
+    var sourceLanguage = args[1];
+    var targetLanguage = args[2];
+    var httpClient = new HttpClient
     {
         BaseAddress = new Uri("https://localhost:5001/translate")
     };
     httpClient.DefaultRequestHeaders.Add("X-Translation-Api-Key", "***");
-
     var translationClient = new TranslationApiClient(httpClient);
-    var texts = new [] { "house" };
-    var sourceLanguage = args[1];
-    var targetLanguage = args[2];
-
     var translations = await translationClient.TranslateAsync(texts, sourceLanguage, targetLanguage);
     if (translations == null)
     {
