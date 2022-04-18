@@ -1,8 +1,34 @@
-﻿@{
+﻿@model TransaleFileViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div>
+        <h1 class="display-6">1. Выберите документ для перевода</h1>
+        <p>Загрузите .docx или .doc</p>
+        <form enctype="multipart/form-data" method="post">
+            <div>
+                <input asp-for="File" type="file">
+                <span asp-validation-for="File"></span>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-4">
+        <h1 class="display-6">2. Выберите языки перевода</h1>
+        Перевести с
+        <select asp-for="SourceLanguage">
+            <option value="ru">ru</option>
+        </select>
+        на
+        <select asp-for="TargetLanguage">
+            <option value="ru">en</option>
+            <option value="ru">de</option>
+        </select>
+    </div>
+
+    <div class="mt-4">
+        <input class="btn btn-primary" type="submit" value="Перевести" />
+    </div>
 </div>
