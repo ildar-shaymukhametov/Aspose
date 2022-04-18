@@ -22,7 +22,7 @@
     var translations = await client.TranslateAsync(texts, sourceLanguage, targetLanguage);
     if (translations == null)
     {
-        Console.WriteLine($"Unable to translate text: {string.Join(", ", texts)}");
+        Console.WriteLine($"Unable to translate text \"{string.Join(", ", texts)}\" from {sourceLanguage} to {targetLanguage}");
         return;
     }
 
