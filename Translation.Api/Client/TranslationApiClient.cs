@@ -2,7 +2,7 @@
 
 public interface ITranslationApiClient
 {
-    Task<string?[]?> TranslateAsync(TranslationRequest request);
+    Task<string?[]?> TranslateAsync(string[] texts, string sourceLanguage, string targetLanguage);
 }
 
 public class TranslationApiClient : ITranslationApiClient
@@ -14,9 +14,14 @@ public class TranslationApiClient : ITranslationApiClient
         _httpClient = httpClient;
     }
 
-    public async Task<string?[]?> TranslateAsync(TranslationRequest request)
+    public async Task<string?[]?> TranslateAsync(string[] texts, string sourceLanguage, string targetLanguage)
     {
-        var content = JsonContent.Create(request);
+        var content = JsonContent.Create(new TranslationRequest
+        {
+            Texts = texts,
+            SourceLanguageCode = sourceLanguage,
+            TargetLanguageCode = targetLanguage
+        });
         var response = await _httpClient.PostAsync("translate", content);
         response.EnsureSuccessStatusCode();
 
