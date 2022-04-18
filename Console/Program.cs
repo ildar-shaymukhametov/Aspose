@@ -33,5 +33,6 @@
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"Error: {ex.GetBaseException()?.Message}");
+    Console.WriteLine("Failed to translate file");
+    Console.Error.WriteLine($"Error: {ex}");
 }
