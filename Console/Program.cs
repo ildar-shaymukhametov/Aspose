@@ -8,8 +8,7 @@
 
     var filename = args[0];
     using var file = File.Open(filename, FileMode.Open);
-    var parser = new Parser();
-    var texts = parser.Parse(file);
+    var texts = new Parser().Parse(file);
     if (!texts.Any())
     {
         Console.WriteLine("File contains no text");
