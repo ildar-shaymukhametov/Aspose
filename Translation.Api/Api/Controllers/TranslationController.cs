@@ -23,21 +23,10 @@ public class TranslationController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var message = new HttpRequestMessage
-        {
-            Method = HttpMethod.Post,
-            Content = JsonContent.Create(new
-            {
-                folderId = _options.FolderId,
-                texts = request.Texts,
-                targetLanguageCode = request.TargetLanguageCode,
-                sourceLanguageCode = request.SourceLanguageCode
-            })
-        };
-
         try
         {
             var httpClient = _httpClientFactory.CreateClient("TranslationApi");
+            var message = CreateRequestMessage(request);
             var response = await httpClient.SendAsync(message);
             response.EnsureSuccessStatusCode();
 
@@ -49,5 +38,20 @@ public class TranslationController : ControllerBase
             _logger.LogError(ex, "Request: {request}", request);
             return Problem(title: ex.Message, detail: ex.StackTrace);
         }
+    }
+
+    private HttpRequestMessage CreateRequestMessage(TranslationRequest request)
+    {
+        return new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            Content = JsonContent.Create(new
+            {
+                folderId = _options.FolderId,
+                texts = request.Texts,
+                targetLanguageCode = request.TargetLanguageCode,
+                sourceLanguageCode = request.SourceLanguageCode
+            })
+        };
     }
 }
