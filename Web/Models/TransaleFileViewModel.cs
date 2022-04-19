@@ -7,10 +7,10 @@ public class TransaleFileViewModel : IValidatableObject
 
     public IFormFile File { get; set; }
 
-    [RegularExpression("ru")]
+    [StringLength(2)]
     public string SourceLanguage { get; set; }
 
-    [RegularExpression("en|de")]
+    [StringLength(2)]
     public string TargetLanguage { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
