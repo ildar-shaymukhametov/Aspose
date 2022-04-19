@@ -1,0 +1,20 @@
+﻿@model TranlsationResultViewModel
+
+@{
+    ViewData["Title"] = "Result";
+    Layout = null;
+}
+
+@if (!string.IsNullOrWhiteSpace(Model?.FileName))
+{
+    <p>Translation results for @Model.FileName</p>
+    <p>---------------------------------------</p>
+}
+
+@if (Model?.Texts != null && Model.Texts.Any())
+{
+    foreach (var item in Model.Texts)
+    {
+        <p>@item</p>
+    }
+}

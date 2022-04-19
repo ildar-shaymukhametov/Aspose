@@ -31,8 +31,14 @@ public class HomeController : Controller
             return View(nameof(Index));
         }
 
-        return View(nameof(Index));
-    } 
+        var texts = new[] { "foo" };
+
+        return View("Result", new TranlsationResultViewModel
+        {
+            FileName = viewModel.File.FileName,
+            Texts = texts
+        });
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
