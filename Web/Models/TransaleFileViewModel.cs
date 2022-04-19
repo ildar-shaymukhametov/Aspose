@@ -15,15 +15,15 @@ public class TransaleFileViewModel : IValidatableObject
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        if (File?.Length > MaxFileSizeBytes)
+        if (File.Length > MaxFileSizeBytes)
         {
             yield return new ValidationResult($"Размер файла не должен превышать {MaxFileSizeBytes / 1024} мегабайт", new[] { nameof(File) });
         }
 
-        var attribute = new FileExtensionsAttribute() { Extensions = _allowedExtensions };
-        if (!attribute.IsValid(File?.FileName))
+        var attribute = new FileExtensionsAttribute { Extensions = _allowedExtensions };
+        if (!attribute.IsValid(File.FileName))
         {
-            yield return new ValidationResult($"Неподдерживаемый формат файла", new[] { nameof(File) });
+            yield return new ValidationResult("Неподдерживаемый формат файла", new[] { nameof(File) });
         }
     }
 }

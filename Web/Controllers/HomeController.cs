@@ -22,11 +22,6 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
     [HttpPost]
     public async Task<IActionResult> Translate(TransaleFileViewModel viewModel)
     {
