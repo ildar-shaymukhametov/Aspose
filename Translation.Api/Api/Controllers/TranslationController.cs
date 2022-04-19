@@ -40,6 +40,26 @@ public class TranslationController : ControllerBase
         }
     }
 
+    [HttpGet("languages")]
+    public async Task<IActionResult> Languages()
+    {
+        try
+        {
+            var httpClient = _httpClientFactory.CreateClient("TranslationApi");
+            var message = CreateLanguagesRequestMessage();
+            var response = await httpClient.SendAsync(message);
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadAsStringAsync();
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while requesting the list of supported languages");
+            return Problem(title: ex.Message, detail: ex.StackTrace);
+        }
+    }
+
     private HttpRequestMessage CreateRequestMessage(TranslationRequest request)
     {
         return new HttpRequestMessage
@@ -51,6 +71,18 @@ public class TranslationController : ControllerBase
                 texts = request.Texts,
                 targetLanguageCode = request.TargetLanguageCode,
                 sourceLanguageCode = request.SourceLanguageCode
+            })
+        };
+    }
+
+    private HttpRequestMessage CreateLanguagesRequestMessage()
+    {
+        return new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            Content = JsonContent.Create(new
+            {
+                folderId = _options.FolderId,
             })
         };
     }
