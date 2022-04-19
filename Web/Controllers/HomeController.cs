@@ -9,7 +9,6 @@ public class HomeController : Controller
     private readonly IParser _parser;
     private readonly ITranslationApiClient _translationApiClient;
     private readonly ILogger<HomeController> _logger;
-    private readonly string[] _supportedExtensions = { ".docx", ".doc" };
 
     public HomeController(IParser parser, ITranslationApiClient translationApiClient, ILogger<HomeController> logger)
     {
@@ -20,7 +19,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        ViewData["SupportedExtensions"] = _supportedExtensions;
         return View();
     }
 
@@ -36,7 +34,7 @@ public class HomeController : Controller
         {
             using var stream = viewModel.File.OpenReadStream();
             var texts = _parser.Parse(stream);
-            
+
             var translations = await _translationApiClient.TranslateAsync(texts, viewModel.SourceLanguage, viewModel.TargetLanguage);
 
             return View("Result", new TranlsationResultViewModel

@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
+namespace Web.Models;
+
 public class TransaleFileViewModel : IValidatableObject
 {
-    const int MaxFileSizeBytes = 10485760;
-    readonly string _allowedExtensions = "docx,doc";
+    private const int MaxFileSizeBytes = 10485760;
 
     public IFormFile File { get; set; }
 
@@ -20,7 +21,7 @@ public class TransaleFileViewModel : IValidatableObject
             yield return new ValidationResult($"Размер файла не должен превышать {MaxFileSizeBytes / 1024} мегабайт", new[] { nameof(File) });
         }
 
-        var attribute = new FileExtensionsAttribute { Extensions = _allowedExtensions };
+        var attribute = new FileExtensionsAttribute { Extensions = string.Join(",", Globals.SupportedExtensions) };
         if (!attribute.IsValid(File.FileName))
         {
             yield return new ValidationResult("Неподдерживаемый формат файла", new[] { nameof(File) });
