@@ -1,13 +1,14 @@
 ﻿@model TransaleFileViewModel
 @{
     ViewData["Title"] = "Home Page";
+    var supportedExtensions = ViewData["SupportedExtensions"] as string[] ?? Array.Empty<string>();
 }
 
 <div class="text-center">
     <form asp-controller="Home" asp-action="Translate" enctype="multipart/form-data" method="post">
         <div>
             <h1 class="display-6">1. Выберите документ для перевода</h1>
-            <p>Загрузите .docx или .doc</p>
+            <p>Загрузите @string.Join(", ", supportedExtensions)</p>
             <input class="btn btn-outline-dark" asp-for="File" type="file">
             <div>
                 <span class="text-danger" asp-validation-for="File"></span>
