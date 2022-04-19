@@ -10,9 +10,9 @@ public class TranslationController : ControllerBase
 
     public TranslationController(IHttpClientFactory httpClientFactory, IOptions<TranslationApiOptions> options, ILogger<TranslationController> logger)
     {
-        _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+        _httpClientFactory = httpClientFactory;
         _options = options.Value;
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _logger = logger;
     }
 
     [HttpPost("translate")]
