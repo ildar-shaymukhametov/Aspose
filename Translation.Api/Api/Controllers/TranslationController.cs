@@ -26,7 +26,7 @@ public class TranslationController : ControllerBase
         try
         {
             var httpClient = _httpClientFactory.CreateClient("TranslationApi");
-            var message = CreateRequestMessage(request);
+            var message = CreateTranslationRequestMessage(request);
             var response = await httpClient.SendAsync(message);
             response.EnsureSuccessStatusCode();
 
@@ -60,7 +60,7 @@ public class TranslationController : ControllerBase
         }
     }
 
-    private HttpRequestMessage CreateRequestMessage(TranslationRequest request)
+    private HttpRequestMessage CreateTranslationRequestMessage(TranslationRequest request)
     {
         return new HttpRequestMessage
         {
