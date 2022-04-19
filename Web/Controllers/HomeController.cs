@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
@@ -36,7 +36,7 @@ public class HomeController : Controller
         return View("Result", new TranlsationResultViewModel
         {
             FileName = viewModel.File.FileName,
-            Texts = texts
+            Translations = texts
         });
     }
 
