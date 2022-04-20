@@ -28,7 +28,7 @@ public class TranslationController : ControllerBase
 
         try
         {
-            var httpClient = _httpClientFactory.CreateClient("TranslationApi");
+            var httpClient = _httpClientFactory.CreateClient("Translate");
             var message = CreateTranslationRequestMessage(request);
             var response = await httpClient.SendAsync(message);
             response.EnsureSuccessStatusCode();
@@ -48,7 +48,7 @@ public class TranslationController : ControllerBase
     {
         try
         {
-            var httpClient = _httpClientFactory.CreateClient("TranslationApi");
+            var httpClient = _httpClientFactory.CreateClient("Languages");
             var message = CreateLanguagesRequestMessage();
             var response = await httpClient.SendAsync(message);
             response.EnsureSuccessStatusCode();
@@ -85,7 +85,7 @@ public class TranslationController : ControllerBase
             Method = HttpMethod.Post,
             Content = JsonContent.Create(new
             {
-                folderId = _options.FolderId,
+                folderId = _options.FolderId
             })
         };
     }

@@ -6,7 +6,11 @@ public class TranslationApiOptions
 {
     [Url]
     [Required]
-    public string? Url { get; set; }
+    public string? TranslateUrl { get; set; }
+
+    [Url]
+    [Required]
+    public string? LanguagesUrl { get; set; }
 
     [Required]
     public string? FolderId { get; set; }

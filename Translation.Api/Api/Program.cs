@@ -18,10 +18,17 @@ builder.Services.AddOptions<RefreshTokenApiOptions>()
     .Bind(builder.Configuration.GetSection("RefreshTokenApi"))
     .ValidateDataAnnotations();
 
-builder.Services.AddHttpClient("TranslationApi", (serviceProvider, httpClient) =>
+builder.Services.AddHttpClient("Translate", (serviceProvider, httpClient) =>
 {
     var options = serviceProvider.GetRequiredService<IOptions<TranslationApiOptions>>().Value;
-    httpClient.BaseAddress = new Uri(options.Url);
+    httpClient.BaseAddress = new Uri(options.TranslateUrl);
+    httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {RefreshTokenAccessor.Token}");
+});
+
+builder.Services.AddHttpClient("Languages", (serviceProvider, httpClient) =>
+{
+    var options = serviceProvider.GetRequiredService<IOptions<TranslationApiOptions>>().Value;
+    httpClient.BaseAddress = new Uri(options.LanguagesUrl);
     httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {RefreshTokenAccessor.Token}");
 });
 
