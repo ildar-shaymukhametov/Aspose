@@ -1,14 +1,11 @@
 ﻿using Client;
 
+var filename = GetInput("Укажите полный путь к файлу:");
+var sourceLanguage = GetInput("Укажите язык источника:");
+var targetLanguage = GetInput("Укажите язык назначения:");
+
 try
 {
-    if (args.Length < 3)
-    {
-        Console.WriteLine("Required arguments not provided");
-        return;
-    }
-
-    var filename = args[0];
     await using var file = File.Open(filename, FileMode.Open);
     var texts = new Parser.Parser().Parse(file);
     if (!texts.Any())
@@ -17,8 +14,6 @@ try
         return;
     }
 
-    var sourceLanguage = args[1];
-    var targetLanguage = args[2];
     var client = CreateClient();
     var translations = await client.TranslateAsync(texts, sourceLanguage, targetLanguage);
     if (translations == null)
@@ -48,4 +43,16 @@ static TranslationApiClient CreateClient()
     var translationClient = new TranslationApiClient(httpClient);
 
     return translationClient;
+}
+
+string GetInput(string prompt)
+{
+    string? result = null;
+    while (string.IsNullOrWhiteSpace(result))
+    {
+        Console.WriteLine(prompt);
+        result = Console.ReadLine();
+    }
+
+    return result;
 }
