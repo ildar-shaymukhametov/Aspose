@@ -19,7 +19,7 @@ public class ParserTests
         var document = new Document();
         AddHeaderFooter(document, headerText, type);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Equal(new[] { headerText }, actual);
@@ -32,7 +32,7 @@ public class ParserTests
         var document = new Document();
         AddHeaderFooter(document, string.Empty, type);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Empty(actual);
@@ -51,7 +51,7 @@ public class ParserTests
         AddNewPage(builder);
         AddHeaderFooter(builder, anotherHeaderText, type);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         var expected = new[] { headerText, anotherHeaderText }.ToHashSet();
@@ -66,7 +66,7 @@ public class ParserTests
         var document = new Document();
         AddFootnote(document, headerText, type);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Equal(new[] { headerText }, actual);
@@ -79,7 +79,7 @@ public class ParserTests
         var document = new Document();
         AddFootnote(document, string.Empty, type);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Empty(actual);
@@ -98,7 +98,7 @@ public class ParserTests
         AddNewPage(builder);
         AddFootnote(builder, anotherHeaderText, type);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         var expected = new[] { headerText, anotherHeaderText }.ToHashSet();
@@ -115,7 +115,7 @@ public class ParserTests
         AddHeaderFooter(document, headerText, HeaderFooterType.FooterFirst);
         AddFootnote(document, footnoteText, FootnoteType.Footnote);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Equal(new[] { headerText }, actual);
@@ -131,7 +131,7 @@ public class ParserTests
         AddHeaderFooter(document, headerText, HeaderFooterType.FooterFirst);
         AddParagraph(document, paragraphText);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Equal(new[] { headerText }, actual);
@@ -147,7 +147,7 @@ public class ParserTests
         AddFootnote(document, footnoteText, FootnoteType.Footnote);
         AddParagraph(document, paragraphText);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Equal(new[] { footnoteText }, actual);
@@ -169,7 +169,7 @@ public class ParserTests
         AddParagraph(builder, firstParagraphText2);
         AddParagraph(builder, paragraphText2);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         var expected = new[] { firstParagraphText1, firstParagraphText2 }.ToHashSet();
@@ -190,7 +190,7 @@ public class ParserTests
         AddNewPage(builder);
         AddParagraph(builder, firstParagraphText2);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Equal(new[] { firstParagraphText1 }, actual);
@@ -203,7 +203,7 @@ public class ParserTests
         var builder = new DocumentBuilder(document);
         AddParagraph(document, string.Empty);
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Empty(actual);
@@ -214,7 +214,7 @@ public class ParserTests
     {
         var document = new Document();
 
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         var actual = sut.Parse(document);
 
         Assert.Empty(actual);
@@ -224,7 +224,7 @@ public class ParserTests
     public void No_document___Throws()
     {
         Document document = null;
-        var sut = new Parser();
+        var sut = new Parser.Parser();
         Assert.Throws<ArgumentNullException>(() => sut.Parse(document));
     }
 

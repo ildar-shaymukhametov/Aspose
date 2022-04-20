@@ -1,5 +1,7 @@
 using Aspose.Words;
 
+namespace Parser;
+
 public interface IParser
 {
     string[] Parse(Document document);

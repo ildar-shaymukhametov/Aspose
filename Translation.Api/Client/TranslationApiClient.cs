@@ -1,4 +1,7 @@
 ﻿using System.Net.Http.Json;
+using Contracts;
+
+namespace Client;
 
 public interface ITranslationApiClient
 {

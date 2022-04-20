@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
+namespace Translation.Api;
+
 public class TranslationApiOptions
 {
     [Url]

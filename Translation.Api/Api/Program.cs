@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Translation.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

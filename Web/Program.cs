@@ -1,4 +1,6 @@
+using Client;
 using Microsoft.Extensions.Options;
+using Parser;
 using Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
-builder.Services.AddScoped<IParser, Parser>();
+builder.Services.AddScoped<IParser, Parser.Parser>();
 
 builder.Services.AddOptions<TranslationApiOptions>()
     .Bind(builder.Configuration.GetSection("TranslationApi"))

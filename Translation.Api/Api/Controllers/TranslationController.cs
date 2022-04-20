@@ -1,5 +1,8 @@
+using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+
+namespace Translation.Api.Controllers;
 
 [ApiController]
 public class TranslationController : ControllerBase

@@ -1,4 +1,6 @@
-﻿try
+﻿using Client;
+
+try
 {
     if (args.Length < 3)
     {
@@ -8,7 +10,7 @@
 
     var filename = args[0];
     using var file = File.Open(filename, FileMode.Open);
-    var texts = new Parser().Parse(file);
+    var texts = new Parser.Parser().Parse(file);
     if (!texts.Any())
     {
         Console.WriteLine("File contains no text");

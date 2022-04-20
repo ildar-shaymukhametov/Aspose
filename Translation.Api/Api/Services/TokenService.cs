@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Translation.Api;
 
 public class RefreshTokenResponse
 {

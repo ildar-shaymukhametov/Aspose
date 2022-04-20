@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Primitives;
 
+namespace Translation.Api;
+
 public class AuthMiddleware
 {
     private readonly RequestDelegate _next;
