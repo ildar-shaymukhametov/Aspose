@@ -200,7 +200,6 @@ public class ParserTests
     public void Empty_paragraph___Ignores_it()
     {
         var document = new Document();
-        var builder = new DocumentBuilder(document);
         AddParagraph(document, string.Empty);
 
         var sut = new Parser.Parser();
