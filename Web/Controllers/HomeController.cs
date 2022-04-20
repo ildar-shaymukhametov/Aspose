@@ -34,7 +34,7 @@ public class HomeController : Controller
 
         try
         {
-            using var stream = viewModel.File.OpenReadStream();
+            await using var stream = viewModel.File.OpenReadStream();
             var texts = _parser.Parse(stream);
 
             var translations = await _translationApiClient.TranslateAsync(texts, viewModel.SourceLanguage, viewModel.TargetLanguage);

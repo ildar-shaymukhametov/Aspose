@@ -9,7 +9,7 @@ try
     }
 
     var filename = args[0];
-    using var file = File.Open(filename, FileMode.Open);
+    await using var file = File.Open(filename, FileMode.Open);
     var texts = new Parser.Parser().Parse(file);
     if (!texts.Any())
     {
