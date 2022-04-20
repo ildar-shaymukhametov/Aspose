@@ -41,7 +41,7 @@ public class TranslationApiClient : ITranslationApiClient
         response.EnsureSuccessStatusCode();
 
         var result = await response.Content.ReadFromJsonAsync<LanguagesResponse>();
-        var languages = result?.Languages;
+        var languages = result?.Languages?.Where(x => !string.IsNullOrWhiteSpace(x.Name)).ToArray();
 
         return languages;
     }

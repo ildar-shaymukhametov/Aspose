@@ -21,13 +21,17 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        await SetViewDataAsync();
+        return View();
+    }
+
+    private async Task SetViewDataAsync()
+    {
         var languageViewModels = await GetLanguagesAsync();
         if (languageViewModels != null)
         {
             ViewData["Languages"] = languageViewModels;
         }
-
-        return View();
     }
 
     [HttpPost]
@@ -35,6 +39,7 @@ public class HomeController : Controller
     {
         if (!ModelState.IsValid)
         {
+            await SetViewDataAsync();
             return View(nameof(Index));
         }
 
