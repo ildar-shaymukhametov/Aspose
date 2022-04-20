@@ -1,0 +1,32 @@
+﻿@model TransaleFileViewModel
+
+<div class="text-center">
+    <form asp-controller="Home" asp-action="Translate" enctype="multipart/form-data" method="post">
+        <div>
+            <h1 class="display-6">1. Выберите документ для перевода</h1>
+            <p>Загрузите @string.Join(", ", Globals.SupportedExtensions)</p>
+            <input class="btn btn-outline-dark" asp-for="File" type="file">
+            <div>
+                <span class="text-danger" asp-validation-for="File"></span>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h1 class="display-6">2. Выберите языки перевода</h1>
+            Перевести с
+            <select asp-for="SourceLanguage">
+                <option value="ru">ru</option>
+                <option value="en">en</option>
+            </select>
+            на
+            <select asp-for="TargetLanguage">
+                <option value="ru">ru</option>
+                <option value="en">en</option>
+            </select>
+        </div>
+
+        <div class="mt-4">
+            <input class="btn btn-primary" type="submit" value="Перевести" />
+        </div>
+    </form>
+</div>
