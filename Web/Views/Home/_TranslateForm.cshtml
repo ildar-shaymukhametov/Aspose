@@ -1,8 +1,7 @@
 ﻿@model TransaleFileViewModel
 @{
-    var selectList = ViewData["Languages"] is LanguageViewModel[] languages
-        ? new SelectList(languages, nameof(LanguageViewModel.Code), nameof(LanguageViewModel.Name))
-        : null;
+    var items = ViewData["Languages"] as LanguageViewModel[];
+    var selectList = new SelectList(items, nameof(LanguageViewModel.Code), nameof(LanguageViewModel.Name));
 }
 
 <div class="text-center">

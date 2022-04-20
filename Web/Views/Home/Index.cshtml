@@ -1,5 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var ok = ViewData["Languages"] is LanguageViewModel[] items && items.Any();
 }
 
-@await Html.PartialAsync("_TranslateForm", new TransaleFileViewModel())
+@if (ok)
+{
+    @await Html.PartialAsync("_TranslateForm", new TransaleFileViewModel())
+}
+else
+{
+    <div class="text-center">
+        <span>В данный момент мы не можем перевести Ваш документ. Пожалуйста, попробуйте позднее.</span>
+    </div>
+}
