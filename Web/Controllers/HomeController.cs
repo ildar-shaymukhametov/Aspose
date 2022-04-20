@@ -21,14 +21,11 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var supportedLanguages = await _translationApiClient.LanguagesAsync();
-        var viewModels = supportedLanguages?.Select(x => new LanguageViewModel
+        var languageViewModels = await GetLanguagesAsync();
+        if (languageViewModels != null)
         {
-            Code = x.Code,
-            Name = x.Name
-        }).ToArray();
-
-        ViewData["Languages"] = viewModels;
+            ViewData["Languages"] = languageViewModels;
+        }
 
         return View();
     }
@@ -65,5 +62,25 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private async Task<LanguageViewModel[]?> GetLanguagesAsync()
+    {
+        try
+        {
+            var supportedLanguages = await _translationApiClient.LanguagesAsync();
+            var viewModels = supportedLanguages?.Select(x => new LanguageViewModel
+            {
+                Code = x.Code,
+                Name = x.Name
+            }).ToArray();
+
+            return viewModels;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to fetch languages");
+            return null;
+        }
     }
 }
