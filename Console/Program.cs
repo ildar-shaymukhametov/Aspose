@@ -1,4 +1,13 @@
 ﻿using Client;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+
+using var host = Host.CreateDefaultBuilder(args).Build();
+
+var config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
 
 var filename = GetInput("Укажите полный путь к файлу:");
 var sourceLanguage = GetInput("Укажите язык источника:");
@@ -35,13 +44,14 @@ catch (Exception ex)
     Console.Error.WriteLine($"Unable to translate file {filename} from {sourceLanguage} to {targetLanguage}\n{ex}");
 }
 
-static TranslationApiClient CreateClient()
+TranslationApiClient CreateClient()
 {
+    var settings = config.GetRequiredSection(Settings.SectionName).Get<Settings>();
     var httpClient = new HttpClient
     {
-        BaseAddress = new Uri("https://localhost:5001/translate")
+        BaseAddress = settings.Url
     };
-    httpClient.DefaultRequestHeaders.Add("X-Translation-Api-Key", "***");
+    httpClient.DefaultRequestHeaders.Add("X-Translation-Api-Key", settings.ApiKey);
     var translationClient = new TranslationApiClient(httpClient);
 
     return translationClient;
