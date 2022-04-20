@@ -53,7 +53,8 @@ public class HomeController : Controller
             return View("Result", new TranlsationResultViewModel
             {
                 FileName = viewModel.File.FileName,
-                Translations = translations
+                Translations = translations,
+                OriginalTexts = texts
             });
         }
         catch (Exception ex)

@@ -11,6 +11,15 @@
     <p>---------------------------------------</p>
 }
 
+@if (Model?.OriginalTexts != null && Model.OriginalTexts.Any())
+{
+    foreach (var item in Model.OriginalTexts)
+    {
+        <p>@item</p>
+    }
+    <p>---------------------------------------</p>
+}
+
 @if (Model?.Translations != null && Model.Translations.Any())
 {
     foreach (var item in Model.Translations)
