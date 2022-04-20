@@ -4,13 +4,15 @@ var filename = GetInput("Укажите полный путь к файлу:");
 var sourceLanguage = GetInput("Укажите язык источника:");
 var targetLanguage = GetInput("Укажите язык назначения:");
 
+Console.WriteLine("Переводим...");
+
 try
 {
     await using var file = File.Open(filename, FileMode.Open);
     var texts = new Parser.Parser().Parse(file);
     if (!texts.Any())
     {
-        Console.WriteLine("File contains no text");
+        Console.WriteLine("Файл не содержит текст");
         return;
     }
 
@@ -18,7 +20,7 @@ try
     var translations = await client.TranslateAsync(texts, sourceLanguage, targetLanguage);
     if (translations == null)
     {
-        Console.WriteLine($"Unable to translate text \"{string.Join(", ", texts)}\" from {sourceLanguage} to {targetLanguage}");
+        Console.WriteLine("Не удалось перевести файл");
         return;
     }
 
@@ -29,8 +31,8 @@ try
 }
 catch (Exception ex)
 {
-    Console.WriteLine("Failed to translate file");
-    Console.Error.WriteLine($"Error: {ex}");
+    Console.WriteLine("Не удалось перевести файл");
+    Console.Error.WriteLine($"Unable to translate file {filename} from {sourceLanguage} to {targetLanguage}\n{ex}");
 }
 
 static TranslationApiClient CreateClient()
