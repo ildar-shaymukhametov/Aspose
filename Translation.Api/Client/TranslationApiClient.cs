@@ -6,6 +6,7 @@ namespace Client;
 public interface ITranslationApiClient
 {
     Task<string?[]?> TranslateAsync(string[] texts, string sourceLanguage, string targetLanguage);
+    Task<Language[]?> LanguagesAsync();
 }
 
 public class TranslationApiClient : ITranslationApiClient
@@ -32,5 +33,16 @@ public class TranslationApiClient : ITranslationApiClient
         var translations = result?.Translations?.Select(x => x.Text).ToArray();
 
         return translations;
+    }
+
+    public async Task<Language[]?> LanguagesAsync()
+    {
+        var response = await _httpClient.GetAsync("languages");
+        response.EnsureSuccessStatusCode();
+
+        var result = await response.Content.ReadFromJsonAsync<LanguagesResponse>();
+        var languages = result?.Languages;
+
+        return languages;
     }
 }

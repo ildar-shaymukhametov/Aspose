@@ -1,4 +1,9 @@
 ﻿@model TransaleFileViewModel
+@{
+    var selectList = ViewData["Languages"] is LanguageViewModel[] languages
+        ? new SelectList(languages, nameof(LanguageViewModel.Code), nameof(LanguageViewModel.Name))
+        : null;
+}
 
 <div class="text-center">
     <form asp-controller="Home" asp-action="Translate" enctype="multipart/form-data" method="post">
@@ -14,15 +19,9 @@
         <div class="mt-4">
             <h1 class="display-6">2. Выберите языки перевода</h1>
             Перевести с
-            <select asp-for="SourceLanguage">
-                <option value="ru">ru</option>
-                <option value="en">en</option>
-            </select>
+            <select asp-for="SourceLanguage" asp-items="selectList"></select>
             на
-            <select asp-for="TargetLanguage">
-                <option value="ru">ru</option>
-                <option value="en">en</option>
-            </select>
+            <select asp-for="TargetLanguage" asp-items="selectList"></select>
         </div>
 
         <div class="mt-4">

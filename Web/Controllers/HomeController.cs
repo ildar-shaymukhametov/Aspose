@@ -19,8 +19,17 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var supportedLanguages = await _translationApiClient.LanguagesAsync();
+        var viewModels = supportedLanguages?.Select(x => new LanguageViewModel
+        {
+            Code = x.Code,
+            Name = x.Name
+        }).ToArray();
+
+        ViewData["Languages"] = viewModels;
+
         return View();
     }
 
