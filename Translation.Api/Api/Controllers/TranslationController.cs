@@ -10,9 +10,9 @@ public class TranslationController : ControllerBase
 
     public TranslationController(IHttpClientFactory httpClientFactory, IOptions<TranslationApiOptions> options, ILogger<TranslationController> logger)
     {
-        _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+        _httpClientFactory = httpClientFactory;
         _options = options.Value;
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _logger = logger;
     }
 
     [HttpPost("translate")]
@@ -23,21 +23,10 @@ public class TranslationController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var message = new HttpRequestMessage
-        {
-            Method = HttpMethod.Post,
-            Content = JsonContent.Create(new
-            {
-                folderId = _options.FolderId,
-                texts = request.Texts,
-                targetLanguageCode = request.TargetLanguageCode,
-                sourceLanguageCode = request.SourceLanguageCode
-            })
-        };
-
         try
         {
             var httpClient = _httpClientFactory.CreateClient("TranslationApi");
+            var message = CreateTranslationRequestMessage(request);
             var response = await httpClient.SendAsync(message);
             response.EnsureSuccessStatusCode();
 
@@ -49,5 +38,52 @@ public class TranslationController : ControllerBase
             _logger.LogError(ex, "Request: {request}", request);
             return Problem(title: ex.Message, detail: ex.StackTrace);
         }
+    }
+
+    [HttpGet("languages")]
+    public async Task<IActionResult> Languages()
+    {
+        try
+        {
+            var httpClient = _httpClientFactory.CreateClient("TranslationApi");
+            var message = CreateLanguagesRequestMessage();
+            var response = await httpClient.SendAsync(message);
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadAsStringAsync();
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while requesting the list of supported languages");
+            return Problem(title: ex.Message, detail: ex.StackTrace);
+        }
+    }
+
+    private HttpRequestMessage CreateTranslationRequestMessage(TranslationRequest request)
+    {
+        return new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            Content = JsonContent.Create(new
+            {
+                folderId = _options.FolderId,
+                texts = request.Texts,
+                targetLanguageCode = request.TargetLanguageCode,
+                sourceLanguageCode = request.SourceLanguageCode
+            })
+        };
+    }
+
+    private HttpRequestMessage CreateLanguagesRequestMessage()
+    {
+        return new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            Content = JsonContent.Create(new
+            {
+                folderId = _options.FolderId,
+            })
+        };
     }
 }
