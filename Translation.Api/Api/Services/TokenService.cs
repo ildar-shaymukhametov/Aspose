@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
-using Translation.Api;
+
+namespace Translation.Api.Services;
 
 public class RefreshTokenResponse
 {

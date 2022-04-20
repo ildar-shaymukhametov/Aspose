@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Primitives;
-
 namespace Translation.Api;
 
 public class AuthMiddleware
@@ -13,7 +11,7 @@ public class AuthMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var hasApiKey = context.Request.Headers.TryGetValue("X-Translation-Api-Key", out StringValues apiKey);
+        var hasApiKey = context.Request.Headers.TryGetValue("X-Translation-Api-Key", out var apiKey);
         if (!hasApiKey)
         {
             context.Response.StatusCode = 401;
