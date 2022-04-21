@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Translation.Api", "Translat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Translation.Api\Contracts\Contracts.csproj", "{C544E46E-1C29-4DC3-B907-4AFBE32E5852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Translation.Api", "Translation.Api\Api\Translation.Api.csproj", "{04471179-27D1-4184-B2FB-6AA0040A16F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Translation.Api\Api\Api.csproj", "{04471179-27D1-4184-B2FB-6AA0040A16F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "console\Console.csproj", "{71BAB9BA-FE53-4B1B-8BFE-73F7930DA43C}"
 EndProject
