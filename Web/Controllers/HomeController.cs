@@ -9,12 +9,14 @@ namespace Web.Controllers;
 public class HomeController : Controller
 {
     private readonly IParser _parser;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly ITranslationApiClient _translationApiClient;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(IParser parser, ITranslationApiClient translationApiClient, ILogger<HomeController> logger)
+    public HomeController(IParser parser, IHttpClientFactory httpClientFactory, ITranslationApiClient translationApiClient, ILogger<HomeController> logger)
     {
         _parser = parser;
+        _httpClientFactory = httpClientFactory;
         _translationApiClient = translationApiClient;
         _logger = logger;
     }
@@ -45,14 +47,14 @@ public class HomeController : Controller
 
         try
         {
-            await using var stream = viewModel.File.OpenReadStream();
+            await using var stream = await GetStreamAsync(viewModel);
             var texts = _parser.Parse(stream);
 
             var translations = await _translationApiClient.TranslateAsync(texts, viewModel.SourceLanguage, viewModel.TargetLanguage);
 
             return View("Result", new TranlsationResultViewModel
             {
-                FileName = viewModel.File.FileName,
+                FileName = viewModel.File?.FileName,
                 Translations = translations,
                 OriginalTexts = texts
             });
@@ -62,6 +64,20 @@ public class HomeController : Controller
             _logger.LogError(ex, "Failed to translate file {file} from {sourceLanguage} to {targetLanguage}", viewModel.File.FileName, viewModel.SourceLanguage, viewModel.TargetLanguage);
             return Content("Sorry, we were unable to translate your file. Please try again later");
         }
+    }
+
+    private async Task<Stream> GetStreamAsync(TransaleFileViewModel viewModel)
+    {
+        if (viewModel.File != null)
+        {
+            return viewModel.File.OpenReadStream();
+        }
+
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.GetAsync(viewModel.Url);
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadAsStreamAsync();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

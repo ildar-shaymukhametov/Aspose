@@ -6,7 +6,10 @@ public class TransaleFileViewModel : IValidatableObject
 {
     private const int MaxFileSizeBytes = 10485760;
 
-    public IFormFile File { get; set; }
+    public IFormFile? File { get; set; }
+
+    [Url]
+    public string? Url { get; set; }
 
     [StringLength(2)]
     public string SourceLanguage { get; set; }
@@ -16,15 +19,22 @@ public class TransaleFileViewModel : IValidatableObject
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        if (File.Length > MaxFileSizeBytes)
+        if (Url == null && File == null || Url != null && File != null)
         {
-            yield return new ValidationResult($"Размер файла не должен превышать {MaxFileSizeBytes / 1024} мегабайт", new[] { nameof(File) });
+            yield return new ValidationResult($"Необходимо указать либо ссылку, либо файл", new[] { nameof(File), nameof(Url) });
         }
-
-        var attribute = new FileExtensionsAttribute { Extensions = string.Join(",", Globals.SupportedExtensions) };
-        if (!attribute.IsValid(File.FileName))
+        else if (File != null)
         {
-            yield return new ValidationResult("Неподдерживаемый формат файла", new[] { nameof(File) });
+            if (File.Length > MaxFileSizeBytes)
+            {
+                yield return new ValidationResult($"Размер файла не должен превышать {MaxFileSizeBytes / 1024} мегабайт", new[] { nameof(File) });
+            }
+
+            var attribute = new FileExtensionsAttribute { Extensions = string.Join(",", Globals.SupportedExtensions) };
+            if (!attribute.IsValid(File.FileName))
+            {
+                yield return new ValidationResult("Неподдерживаемый формат файла", new[] { nameof(File) });
+            }
         }
     }
 }
