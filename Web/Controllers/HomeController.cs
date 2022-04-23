@@ -61,7 +61,8 @@ public class HomeController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to translate file {file} from {sourceLanguage} to {targetLanguage}", viewModel.File.FileName, viewModel.SourceLanguage, viewModel.TargetLanguage);
+            var fileName = viewModel.File?.FileName ?? viewModel.Url;
+            _logger.LogError(ex, "Failed to translate file {file} from {sourceLanguage} to {targetLanguage}", fileName, viewModel.SourceLanguage, viewModel.TargetLanguage);
             return Content("Sorry, we were unable to translate your file. Please try again later");
         }
     }
