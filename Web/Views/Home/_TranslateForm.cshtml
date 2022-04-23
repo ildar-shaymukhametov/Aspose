@@ -16,17 +16,19 @@
                     <button class="nav-link" id="link-tab" data-bs-toggle="tab" data-bs-target="#link" type="button" role="tab" aria-controls="link" aria-selected="true">По ссылке</button>
                 </li>
             </ul>
+            <p class="mt-2">Поддерживаемые форматы: @string.Join(", ", Globals.SupportedExtensions)</p>
             <div class="tab-content" id="fileTabContent">
                 <div class="tab-pane fade show active" id="file" role="tabpanel" aria-labelledby="file-tab">
-                    <p>Загрузите @string.Join(", ", Globals.SupportedExtensions)</p>
-                    <input class="btn btn-outline-dark" asp-for="File" type="file">
-                    <div>
-                        <span class="text-danger" asp-validation-for="File"></span>
+                    <div class="d-flex flex-column align-items-center">
+                        <input class="form-control" asp-for="File" type="file" id="file" style="width: 500px">
+                        <div>
+                            <span class="text-danger" asp-validation-for="File"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="link" role="tabpanel" aria-labelledby="link-tab">
                     <div class="d-flex flex-column align-items-center">
-                        @Html.TextBoxFor(x => x.Url, new { @class = "form-control mt-4", style = "width: 500px", placeholder = "Укажите ссылку на документ" })
+                        @Html.TextBoxFor(x => x.Url, new { @class = "form-control", style = "width: 500px", placeholder = "Укажите ссылку на документ" })
                         <div>
                             <span class="text-danger" asp-validation-for="Url"></span>
                         </div>
