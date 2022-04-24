@@ -15,7 +15,7 @@ public class ParserTests
     [ClassData(typeof(HeaderFooterTypeData))]
     public void Has_header_or_footer___Returns_its_text(HeaderFooterType type)
     {
-        var headerText = GetRandomText();
+        var headerText = GetRandomSentence();
         var document = new Document();
         AddHeaderFooter(document, headerText, type);
 
@@ -42,8 +42,8 @@ public class ParserTests
     [ClassData(typeof(HeaderFooterTypeData))]
     public void Has_headers_or_footers_in_different_sections___Returns_their_text(HeaderFooterType type)
     {
-        var headerText = GetRandomText();
-        var anotherHeaderText = GetRandomText();
+        var headerText = GetRandomSentence();
+        var anotherHeaderText = GetRandomSentence();
 
         var document = new Document();
         var builder = new DocumentBuilder(document);
@@ -62,7 +62,7 @@ public class ParserTests
     [ClassData(typeof(FootnoteTypeData))]
     public void Has_footnote_or_endnote___Returns_its_text(FootnoteType type)
     {
-        var headerText = GetRandomText();
+        var headerText = GetRandomSentence();
         var document = new Document();
         AddFootnote(document, headerText, type);
 
@@ -89,8 +89,8 @@ public class ParserTests
     [ClassData(typeof(FootnoteTypeData))]
     public void Has_footnotes_or_endnotes_in_different_sections___Returns_their_text(FootnoteType type)
     {
-        var headerText = GetRandomText();
-        var anotherHeaderText = GetRandomText();
+        var headerText = GetRandomSentence();
+        var anotherHeaderText = GetRandomSentence();
 
         var document = new Document();
         var builder = new DocumentBuilder(document);
@@ -108,8 +108,8 @@ public class ParserTests
     [Fact]
     public void Has_header_and_footnote___Ignores_footnote()
     {
-        var headerText = GetRandomText();
-        var footnoteText = GetRandomText();
+        var headerText = GetRandomSentence();
+        var footnoteText = GetRandomSentence();
 
         var document = new Document();
         AddHeaderFooter(document, headerText, HeaderFooterType.FooterFirst);
@@ -124,8 +124,8 @@ public class ParserTests
     [Fact]
     public void Has_header_and_paragraph___Ignores_paragraph()
     {
-        var headerText = GetRandomText();
-        var paragraphText = GetRandomText();
+        var headerText = GetRandomSentence();
+        var paragraphText = GetRandomSentence();
 
         var document = new Document();
         AddHeaderFooter(document, headerText, HeaderFooterType.FooterFirst);
@@ -140,8 +140,8 @@ public class ParserTests
     [Fact]
     public void Has_footnote_and_paragraph___Ignores_paragraph()
     {
-        var footnoteText = GetRandomText();
-        var paragraphText = GetRandomText();
+        var footnoteText = GetRandomSentence();
+        var paragraphText = GetRandomSentence();
 
         var document = new Document();
         AddFootnote(document, footnoteText, FootnoteType.Footnote);
@@ -156,10 +156,10 @@ public class ParserTests
     [Fact]
     public void Has_no_header_and_no_footnote___Returns_first_paragraph_of_every_section()
     {
-        var firstParagraphText1 = GetRandomText();
-        var paragraphText1 = GetRandomText();
-        var firstParagraphText2 = GetRandomText();
-        var paragraphText2 = GetRandomText();
+        var firstParagraphText1 = GetRandomSentence();
+        var paragraphText1 = GetRandomSentence();
+        var firstParagraphText2 = GetRandomSentence();
+        var paragraphText2 = GetRandomSentence();
 
         var document = new Document();
         var builder = new DocumentBuilder(document);
@@ -179,8 +179,8 @@ public class ParserTests
     [Fact]
     public void Has_no_header_and_no_footnote_and_empty_first_paragraph___Ignores_empty_paragraph()
     {
-        var firstParagraphText1 = GetRandomText();
-        var paragraphText1 = GetRandomText();
+        var firstParagraphText1 = GetRandomSentence();
+        var paragraphText1 = GetRandomSentence();
         var firstParagraphText2 = string.Empty;
 
         var document = new Document();
@@ -267,6 +267,13 @@ public class ParserTests
         builder.MoveToDocumentEnd();
         builder.InsertBreak(BreakType.PageBreak);
         builder.InsertBreak(BreakType.SectionBreakNewPage);
+    }
+
+    private string GetRandomSentence()
+    {
+        var word1 = GetRandomText();
+        var word2 = GetRandomText();
+        return $"{word1} {word2}";
     }
 
     private string GetRandomText()

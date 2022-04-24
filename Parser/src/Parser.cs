@@ -42,6 +42,7 @@ public class Parser : IParser
         return document.GetChildNodes(type, true)
             .Select(x => x.GetText())
             .Select(ReplaceControlChars)
+            .Select(x => x.Trim())
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToArray();
     }
@@ -64,7 +65,6 @@ public class Parser : IParser
     {
         return value
             .Replace("\x02", string.Empty)
-            .Replace(" ", string.Empty)
             .Replace("\r", string.Empty);
     }
 }
