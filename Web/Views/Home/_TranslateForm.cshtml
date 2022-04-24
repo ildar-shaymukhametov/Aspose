@@ -39,10 +39,12 @@
 
         <div class="mt-4">
             <h1 class="display-6">2. Выберите языки перевода</h1>
-            Перевести с
-            <select asp-for="SourceLanguage" asp-items="selectList"></select>
-            на
-            <select asp-for="TargetLanguage" asp-items="selectList"></select>
+            <div class="d-flex align-items-center justify-content-center">
+                Перевести с
+                <select class="form-select w-auto mx-2" asp-for="SourceLanguage" asp-items="selectList"></select>
+                на
+                <select class="form-select w-auto mx-2" asp-for="TargetLanguage" asp-items="selectList"></select>
+            </div>
         </div>
 
         <div class="mt-4">
