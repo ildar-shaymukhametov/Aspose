@@ -95,7 +95,7 @@ public class HomeController : Controller
             {
                 Code = x.Code,
                 Name = x.Name
-            }).ToArray();
+            })?.ToArray();
 
             return viewModels;
         }
