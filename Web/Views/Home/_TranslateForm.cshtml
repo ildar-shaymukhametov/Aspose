@@ -7,7 +7,7 @@
 <div class="text-center">
     <form asp-controller="Home" asp-action="Translate" enctype="multipart/form-data" method="post">
         <div>
-            <h1 class="display-6">1. Выберите документ для перевода</h1>
+            <h1 class="display-6 mb-4">1. Укажите документ</h1>
             <ul class="nav nav-tabs justify-content-center" id="fileTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="file-tab" data-bs-toggle="tab" data-bs-target="#file" type="button" role="tab" aria-controls="file" aria-selected="true">Найти на компьютере</button>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="mt-4">
-            <h1 class="display-6">2. Выберите языки перевода</h1>
+            <h1 class="display-6 mb-4">2. Выберите языки</h1>
             <div class="d-flex align-items-center justify-content-center">
                 Перевести с
                 <select class="form-select w-auto mx-2" asp-for="SourceLanguage" asp-items="selectList"></select>
