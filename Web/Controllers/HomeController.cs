@@ -54,7 +54,6 @@ public class HomeController : Controller
 
             return View("Result", new TranlsationResultViewModel
             {
-                FileName = viewModel.File?.FileName,
                 Translations = translations,
                 OriginalTexts = texts
             });

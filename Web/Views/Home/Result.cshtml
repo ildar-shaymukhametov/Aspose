@@ -5,12 +5,6 @@
     Layout = null;
 }
 
-@if (!string.IsNullOrWhiteSpace(Model?.FileName))
-{
-    <p>Translation results for @Model.FileName</p>
-    <p>---------------------------------------</p>
-}
-
 @if (Model?.OriginalTexts != null && Model.OriginalTexts.Any())
 {
     foreach (var item in Model.OriginalTexts)
