@@ -19,22 +19,18 @@
             </ul>
             <div class="tab-content pt-4" id="fileTabContent">
                 <div class="tab-pane fade show active" id="file" role="tabpanel" aria-labelledby="file-tab">
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex flex-column align-items-center">
                         <input class="form-control" asp-for="File" type="file" id="file" style="width: 500px">
-                        <div>
-                            <span class="text-danger" asp-validation-for="File"></span>
-                        </div>
+                        <span class="text-danger" asp-validation-for="File"></span>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="link" role="tabpanel" aria-labelledby="link-tab">
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex flex-column align-items-center">
                         <div class="input-group" style="width: 500px">
                             <span class="input-group-text">Ссылка на файл</span>
                             @Html.TextBoxFor(x => x.Url, new { @class = "form-control", placeholder = "http://www.example.com/examplefile.docx" })
                         </div>
-                        <div>
-                            <span class="text-danger" asp-validation-for="Url"></span>
-                        </div>
+                        <span class="text-danger" asp-validation-for="Url"></span>
                     </div>
                 </div>
             </div>
